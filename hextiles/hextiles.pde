@@ -1,15 +1,17 @@
-static final int tileSize = 30;
+static final int tileSize = 50;
 
 void setup() {
   size(1000, 800);
   background(255, 255, 255);
   stroke(0);
   smooth();
-  noLoop();
+  //noLoop();
   noFill();
+  frameRate(5);
+  drawInitial();
 }
 
-void draw() {
+void drawInitial() {
   float dx = tileSize * cos(radians(30)) * 2;
   int l = 0;
   for (float y = 0; y < height + tileSize; y += tileSize / 2) {
@@ -18,6 +20,31 @@ void draw() {
     }
     l++;
   }
+}
+
+void draw() {
+  float dx = tileSize * cos(radians(30)) * 2;
+  int l = (int) random(2 * height / tileSize);
+  float y = l * tileSize / 2;
+  float x = l % 2 * dx / 2 + (int) random(width / dx) * dx;
+  blankModule(x, y, tileSize);
+  stroke(0, 0, 0);
+  module(x, y, tileSize, (int) random(6));
+}
+
+void blankModule(float cx, float cy, float size) {
+  translate(cx, cy);
+  noSmooth();
+  fill(255, 255, 255);
+  noStroke();
+  float side = size * tan(radians(30));
+  quad(-side, 0, 0, 0, side / 2, -size / 2, -side / 2, -size / 2);
+  quad(0, 0, side / 2, size / 2, side, 0, side / 2, -size / 2);
+  quad(-side, 0, -side / 2, size / 2, side / 2, size / 2, 0, 0);
+  noFill();
+  stroke(0, 0, 0);
+  smooth();
+  translate(-cx, -cy);
 }
 
 void module(float cx, float cy, float size, int rotation) {
