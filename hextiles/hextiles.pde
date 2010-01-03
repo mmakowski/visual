@@ -77,6 +77,8 @@ void drawTransitions() {
           transitionModule(scrX, scrY, tileSize, curr, next, step);
         } else {
           module(scrX, scrY, tileSize, next);
+          // redraw neighbours to get rid of transition artifacts
+          redrawNeighbours(x, y);
           setCurr(x, y, next);
         }
         step = (step + 1) % transitionSteps;
@@ -84,6 +86,25 @@ void drawTransitions() {
       }
     }
   }
+}
+
+void redrawNeighbours(int x, int y) {
+  redrawIfStatic(x - 1 + y % 2, y - 2);
+  redrawIfStatic(x + y % 2, y - 1);
+  redrawIfStatic(x + y % 2, y + 1);
+  redrawIfStatic(x - 1 + y % 2, y + 2);
+  redrawIfStatic(x - 1 + y % 2, y + 1);
+  redrawIfStatic(x - 1 + y % 2, y - 1);
+}
+
+void redrawIfStatic(int x, int y) {
+  if (x < 0 || y < 0 || x >= pattern.length || y >= pattern[0].length) return;
+  int curr = getCurr(x, y);
+  if (curr != getNext(x, y)) return;
+  float scrX = toScreenCoordX(x, y);
+  float scrY = toScreenCoordY(y);
+  blankModule(scrX, scrY, tileSize);
+  module(scrX, scrY, tileSize, curr);
 }
 
 void blankModule(float cx, float cy, float size) {
