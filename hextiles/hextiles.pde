@@ -1,4 +1,4 @@
-// params
+// parameters
 static final int tileSize = 50;
 static final int transitionSteps = 50;
 static final int transitionDelay = 20;
@@ -115,6 +115,7 @@ void module(float cx, float cy, float size, int rotation) {
 
 // transition
 void transitionModule(float cx, float cy, float size, int fromRotation, int toRotation, int step) {
+  translate(cx, cy);
   int rotation = step > transitionSteps / 2 ? toRotation : fromRotation;
   float[] ssx = new float[6];
   float[] ssy = new float[6];
@@ -123,15 +124,16 @@ void transitionModule(float cx, float cy, float size, int fromRotation, int toRo
   float dx = size / 2 * cos(radians(30));
   float dy = size / 2 * sin(radians(30));
   float straightness = map(transitionSteps / 2 - (int) abs(step - (transitionSteps / 2)), 0, transitionSteps / 2, 4.5, 9);
-  setCoords(ssx, ssy, outx, outy, 0, cx, cy, 0, -size / 2, straightness);
-  setCoords(ssx, ssy, outx, outy, 1, cx, cy, dx, -dy, straightness);
-  setCoords(ssx, ssy, outx, outy, 2, cx, cy, dx, dy, straightness);
-  setCoords(ssx, ssy, outx, outy, 3, cx, cy, 0, size / 2, straightness);
-  setCoords(ssx, ssy, outx, outy, 4, cx, cy, -dx, dy, straightness);
-  setCoords(ssx, ssy, outx, outy, 5, cx, cy, -dx, -dy, straightness);
+  setCoords(ssx, ssy, outx, outy, 0, 0, -size / 2, straightness);
+  setCoords(ssx, ssy, outx, outy, 1, dx, -dy, straightness);
+  setCoords(ssx, ssy, outx, outy, 2, dx, dy, straightness);
+  setCoords(ssx, ssy, outx, outy, 3, 0, size / 2, straightness);
+  setCoords(ssx, ssy, outx, outy, 4, -dx, dy, straightness);
+  setCoords(ssx, ssy, outx, outy, 5, -dx, -dy, straightness);
   innerArc(ssx, ssy, outx, outy, 4, 5, rotation);
   innerArc(ssx, ssy, outx, outy, 0, 2, rotation);
   innerArc(ssx, ssy, outx, outy, 1, 3, rotation);
+  translate(-cx, -cy);
 }
  
 void innerArc(float[] ssx, float[] ssy, float[] outx, float[] outy, int sideStart, int sideEnd, int rotation) {
@@ -145,11 +147,11 @@ int rot(int base, int rotation) {
   return (base + rotation) % 6;
 }
  
-void setCoords(float[] ssx, float[] ssy, float[] outx, float[] outy, int i, float cx, float cy, float dx, float dy, float straightness) {
-  ssx[i] = cx + dx;
-  ssy[i] = cy + dy;
-  outx[i] = cx + straightness * dx;
-  outy[i] = cy + straightness * dy;
+void setCoords(float[] ssx, float[] ssy, float[] outx, float[] outy, int i, float dx, float dy, float straightness) {
+  ssx[i] = dx;
+  ssy[i] = dy;
+  outx[i] = straightness * dx;
+  outy[i] = straightness * dy;
 }
 
 int getCurr(int x, int y) {
