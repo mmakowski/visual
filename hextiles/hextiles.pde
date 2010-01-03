@@ -1,14 +1,15 @@
 static final int tileSize = 50;
+boolean firstFrame;
 
 void setup() {
-  size(1000, 800);
+  size(900, 450);
   background(255, 255, 255);
   stroke(0);
   smooth();
   //noLoop();
   noFill();
   frameRate(5);
-  drawInitial();
+  firstFrame = true;
 }
 
 void drawInitial() {
@@ -23,6 +24,11 @@ void drawInitial() {
 }
 
 void draw() {
+  if (firstFrame) {
+      drawInitial();
+      firstFrame = false;
+      return;
+  }
   float dx = tileSize * cos(radians(30)) * 2;
   int l = (int) random(2 * height / tileSize);
   float y = l * tileSize / 2;
