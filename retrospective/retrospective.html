@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <style type="text/css">
+
+body {
+  background: #fff;
+}
+
+ellipse {
+  fill: #f00;
+}
+
+path {
+  fill: none;
+  stroke: #f00;
+  stroke-linecap: round;
+}
+
+.mid {
+  stroke-width: 4px;
+}
+
+.tail {
+  stroke-width: 2px;
+}
+
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript">
+
+$.getJSON('https://api.github.com/repos/mmakowski/wikidata/commits?callback=?', function(data) {
+  document.write(data);
+});
+
+    </script>
+  </body>
+</html>
