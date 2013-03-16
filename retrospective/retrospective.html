@@ -32,9 +32,22 @@ path {
   <body>
     <script type="text/javascript">
 
-$.getJSON('https://api.github.com/repos/mmakowski/wikidata/commits?callback=?', function(data) {
-  document.write(data);
+var day_length_ms = 100;
+
+d3.csv("extract.csv", function(data) {
+  process(data);
 });
+
+function process(entries) {
+  if (entries.length == 0) return;
+  var date  = entries[0].date;
+  var i = 0;
+  for (; i < entries.length && entries[i].date == date; i++) {
+    var entry = entries[i];
+    document.write(entry.date + ' ' + entry.file + ' ' + entry.activity + '<br/>');
+  }
+  setTimeout(function() { process(entries.slice(i)); }, day_length_ms);
+}
 
     </script>
   </body>

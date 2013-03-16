@@ -27,6 +27,7 @@ for line in fileinput.input():
       (adds, dels, file_name) = line.split('\t')
       add_activity(activities, date, file_name, pnum(adds) + pnum(dels))
 
+print('date,file,activity')
 for date in sorted(activities.keys()):
   for file_name in sorted(activities[date].keys()):
     activity = activities[date][file_name]
