@@ -1,0 +1,7 @@
+#!/bin/bash
+
+REPO=$1
+START_COMMIT=$2
+
+git --git-dir=$REPO/.git log --reverse --numstat --date=short --format=format:%ad $START_COMMIT.. | python commits_to_csv.py > extract.csv
+
