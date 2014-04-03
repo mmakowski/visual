@@ -1,0 +1,3 @@
+#!/bin/sh
+
+/opt/gstreamer-sdk/bin/gst-sdk-shell
