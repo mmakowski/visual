@@ -3,3 +3,5 @@ sketch.properties
 web-export/
 .metadata/
 .project
+*.fcstd1
+
